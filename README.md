@@ -1,24 +1,26 @@
-# README
+# Elppa - Extended Local Prediction and Precipitation Application
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Rails 8 app with PostgreSQL, Redis, and Sidekiq.
 
-Things you may want to cover:
+## Docker Compose
 
-* Ruby version
+Copy the development env file and start the stack:
 
-* System dependencies
+```sh
+cp .env.development.example .env
+docker compose up --build
+```
 
-* Configuration
+Compose builds `web` and `worker` from `Dockerfile`. The image keeps `build-essential` so development gems can compile.
 
-* Database creation
+Services:
 
-* Database initialization
+- `db` — PostgreSQL 18 (`elppa_development`)
+- `redis` — Redis 7
+- `web` — Rails on http://localhost:3000
+- `worker` — Sidekiq
 
-* How to run the test suite
+Postgres is published on `DB_HOST_PORT` (default 5432). Redis is on 6379.
 
-* Services (job queues, cache servers, search engines, etc.)
+Production Compose values live in `.env.production.example`. Copy that to `.env.production` and fill in `RAILS_MASTER_KEY` from `config/master.key`. Do not overwrite the development `.env`.
 
-* Deployment instructions
-
-* ...
