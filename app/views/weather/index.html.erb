@@ -3,6 +3,7 @@
 <% if @weather.result.present? %>
   <div class="current-weather" style="margin-bottom: 25px; padding: 15px; background: #eef2f7; border-radius: 6px; width: fit-content;">
     <h3>Current Conditions</h3>
+    <h4><%= @weather.result[:display_name] %></h4>
     <p><strong>Current Temperature:</strong> <%= @weather.result[:current_temperature] %>°C</p>
     <p><strong>Today's High:</strong> <%= @weather.result[:today_high] %>°C</p>
     <p><strong>Today's Low:</strong> <%= @weather.result[:today_low] %>°C</p>

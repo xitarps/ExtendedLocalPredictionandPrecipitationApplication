@@ -46,7 +46,8 @@ class Api::V1::Coordinates::Providers::OpenStreetMap < ServiceInterface
       location = @geo_data.first
       lat = location['lat']
       lon = location['lon']
-      self.result = { latitude: lat, longitude: lon }
+      display_name = location['display_name']
+      self.result = { latitude: lat, longitude: lon, display_name: display_name }
     else
       self.errors << "Location not found"
       nil

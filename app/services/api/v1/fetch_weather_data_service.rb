@@ -15,10 +15,11 @@ class Api::V1::FetchWeatherDataService < ServiceInterface
     self.errors += coordinates.errors if coordinates.errors.any?
     return if self.errors.any?
 
-    weather_data = Api::V1::Weather::FetcherService.call(provider: kwargs[:weather_provider] || DEFAULT_WEATHER_PROVIDER, **coordinates.result)
+
+    weather_data = Api::V1::Weather::FetcherService.call(provider: kwargs[:weather_provider] || DEFAULT_WEATHER_PROVIDER, **coordinates.result.slice(:latitude, :longitude))
     self.errors += weather_data.errors if weather_data.errors.any?
     return if self.errors.any?
 
-    self.result = weather_data.result
+    self.result = weather_data.result.merge(coordinates.result.slice(:display_name))
   end
 end
