@@ -4,7 +4,7 @@ class Api::V1::FetchWeatherDataService < ServiceInterface
   CACHE_TTL = 30.minutes
 
   attr_reader :cached
-  
+
   private
 
   def run
@@ -30,7 +30,7 @@ class Api::V1::FetchWeatherDataService < ServiceInterface
   end
 
   def evaluate_cache
-    @cache_key = ["weather", kwargs[:zip_code], kwargs[:country_code]]
+    @cache_key = [ "weather", kwargs[:zip_code], kwargs[:country_code] ]
     cached_result = Rails.cache.read(@cache_key)
 
     return @cached = false if cached_result.nil?

@@ -51,12 +51,12 @@ class Api::V1::Weather::Providers::OpenMeteo < ServiceInterface
   def build_result(weather_data)
     return nil if weather_data.blank?
 
-    if weather_data['current'].present? && weather_data['daily'].present?
+    if weather_data["current"].present? && weather_data["daily"].present?
       self.result = {
-        current_temperature: weather_data['current']['temperature_2m'],
-        today_high: weather_data['daily']['temperature_2m_max'].first,
-        today_low: weather_data['daily']['temperature_2m_min'].first,
-        extended_forecast: parse_extended_forecast(weather_data['daily'])
+        current_temperature: weather_data["current"]["temperature_2m"],
+        today_high: weather_data["daily"]["temperature_2m_max"].first,
+        today_low: weather_data["daily"]["temperature_2m_min"].first,
+        extended_forecast: parse_extended_forecast(weather_data["daily"])
       }
     else
       self.errors << "No weather data available for these coordinates"
@@ -64,11 +64,11 @@ class Api::V1::Weather::Providers::OpenMeteo < ServiceInterface
   end
 
   def parse_extended_forecast(daily_data)
-    daily_data['time'].each_with_index.map do |date, index|
+    daily_data["time"].each_with_index.map do |date, index|
       {
         date: Date.parse(date).strftime("%d/%m"),
-        high: daily_data['temperature_2m_max'][index],
-        low: daily_data['temperature_2m_min'][index]
+        high: daily_data["temperature_2m_max"][index],
+        low: daily_data["temperature_2m_min"][index]
       }
     end
   end

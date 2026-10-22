@@ -9,7 +9,7 @@ class ServiceInterface
   end
 
   def self.call(*args, **kwargs, &block)
-    new(*args,**kwargs, &block).call
+    new(*args, **kwargs, &block).call
   end
 
   def call
