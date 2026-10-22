@@ -1,0 +1,7 @@
+<nav class="navbar">
+  <%= form_with url: weather_index_path, method: :get, class: "navbar-search" do %>
+    <%= text_field_tag :zip_code, params[:zip_code], placeholder: "ZIP code" %>
+    <%= select_tag :country_code, options_for_select(["br", "us"], params[:country_code]), include_blank: true %>
+    <%= submit_tag "Search" %>
+  <% end %>
+</nav>

@@ -8,3 +8,36 @@
  *
  * Consider organizing styles into separate files for maintainability.
  */
+
+.navbar {
+  position: sticky;
+  top: 0;
+  display: flex;
+  align-items: center;
+  padding: 12px 20px;
+  background: #1f2937;
+  z-index: 100;
+}
+
+.navbar-search {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.navbar-search input[type="text"],
+.navbar-search select {
+  padding: 6px 10px;
+  border: 1px solid #4b5563;
+  border-radius: 4px;
+  background: #fff;
+}
+
+.navbar-search input[type="submit"] {
+  padding: 6px 14px;
+  border: none;
+  border-radius: 4px;
+  background: #2563eb;
+  color: #fff;
+  cursor: pointer;
+}
