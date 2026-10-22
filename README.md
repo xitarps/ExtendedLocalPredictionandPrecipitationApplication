@@ -18,7 +18,7 @@ Services:
 - `db` — PostgreSQL 18 (`elppa_development`)
 - `redis` — Redis 7
 - `web` — Rails on http://localhost:3000
-- `worker` — Sidekiq
+- `worker` — Sidekiq (dashboard at http://localhost:3000/sidekiq, Basic Auth via `SIDEKIQ_WEB_USERNAME` / `SIDEKIQ_WEB_PASSWORD`)
 
 Postgres is published on `DB_HOST_PORT` (default 5432). Redis is on 6379.
 
