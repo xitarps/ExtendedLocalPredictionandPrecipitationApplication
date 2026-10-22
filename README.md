@@ -57,3 +57,10 @@ Postgres is published on `DB_HOST_PORT` (default 5432). Redis is on 6379.
 
 Production Compose values live in `.env.production.example`. Copy that to `.env.production` and fill in `RAILS_MASTER_KEY` from `config/master.key`. Do not overwrite the development `.env`.
 
+## Tests
+
+From inside the 'web' docker container:
+```sh
+bundle exec rspec
+```
+
