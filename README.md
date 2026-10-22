@@ -1,6 +1,6 @@
 # Elppa - Extended Local Prediction and Precipitation Application
 
-Rails 8 app with PostgreSQL, Redis, and Sidekiq. Search weather by zip code from the navbar; results show current conditions and a 7-day forecast.
+Search weather by zip code from the navbar; results show current conditions and a 7-day forecast.
 
 ## API providers
 
@@ -26,10 +26,10 @@ Successful weather lookups are cached by zip code and country code.
 
 Domain work lives in services rather than fat controllers. That choice is about:
 
-- **Decoupling** — HTTP, geocoding, and weather fetching stay in separate objects.
-- **Testability** — each service can be exercised in isolation, including with a fake cache or provider.
-- **Predictability** — every service is invoked the same way (`call`) and returns `result` plus `errors`.
-- **Control** — the orchestration service decides order, caching, and which provider to use.
+- **Decoupling**: HTTP, geocoding, and weather fetching stay in separate objects.
+- **Testability**: each service can be exercised in isolation, including with a fake cache or provider.
+- **Predictability**: every service is invoked the same way (`call`) and returns `result` plus `errors`.
+- **Control**: the orchestration service decides order, caching, and which provider to use.
 
 `ServiceInterface` is the shared contract: subclasses implement `run`, expose `result` and `errors`, and are called through `.call`.
 
@@ -48,10 +48,10 @@ Compose builds `web` and `worker` from `Dockerfile`. The image keeps `build-esse
 
 Services:
 
-- `db` — PostgreSQL 18 (`elppa_development`)
-- `redis` — Redis 7
-- `web` — Rails on http://localhost:3000
-- `worker` — Sidekiq (dashboard at http://localhost:3000/sidekiq, Basic Auth via `SIDEKIQ_WEB_USERNAME` / `SIDEKIQ_WEB_PASSWORD`)
+- `db`: PostgreSQL 18 (`elppa_development`)
+- `redis`: Redis 7
+- `web`: Rails on http://localhost:3000
+- `worker`: Sidekiq (dashboard at http://localhost:3000/sidekiq, Basic Auth via `SIDEKIQ_WEB_USERNAME` / `SIDEKIQ_WEB_PASSWORD`)
 
 Postgres is published on `DB_HOST_PORT` (default 5432). Redis is on 6379.
 
@@ -63,7 +63,7 @@ This project had about two days of development, so it is closer to a proof of co
 
 Examples of follow-up work:
 
-- User registration, authentication, and persisted accounts — PostgreSQL is already in the stack and waiting for that kind of feature.
+- User registration, authentication, and persisted accounts: PostgreSQL is already in the stack and waiting for that kind of feature.
 - Saving favorite locations, search history, or notification jobs on Sidekiq.
 - A richer UI, stronger input validation, and more provider coverage.
 
@@ -71,8 +71,8 @@ The current weather flow is the vertical slice. Persistence and user-facing prod
 
 ## Tests
 
-From inside the 'web' docker container:
-```sh
-bundle exec rspec
-```
+Create the test database first (once, or after a Docker volume reset), then run the suite from the `web` container:
 
+```sh
+docker-compose exec web bash -c "RAILS_ENV=test bundle exec rails db:create"
+docker-compose exec web bash -c "bundle exec rspec"
