@@ -26,12 +26,14 @@ class Api::V1::FetchWeatherDataService < ServiceInterface
     return if self.errors.any?
 
     self.result = weather_data.result.merge(coordinates.result.slice(:display_name))
-    Rails.cache.write(@cache_key, self.result, expires_in: CACHE_TTL)
+    kwargs[:cache_provider].cache.write(@cache_key, self.result, expires_in: CACHE_TTL)
   end
 
   def evaluate_cache
+    return @cached = false if kwargs[:cache_provider].nil?
+
     @cache_key = [ "weather", kwargs[:zip_code], kwargs[:country_code] ]
-    cached_result = Rails.cache.read(@cache_key)
+    cached_result = kwargs[:cache_provider].cache.read(@cache_key)
 
     return @cached = false if cached_result.nil?
 
