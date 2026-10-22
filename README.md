@@ -57,6 +57,18 @@ Postgres is published on `DB_HOST_PORT` (default 5432). Redis is on 6379.
 
 Production Compose values live in `.env.production.example`. Copy that to `.env.production` and fill in `RAILS_MASTER_KEY` from `config/master.key`. Do not overwrite the development `.env`.
 
+## Observations and improvements
+
+This project had about two days of development, so it is closer to a proof of concept than a finished product. The structure is already there to grow into one: services, provider composition, cache, Docker, and tests. What is still missing is product depth.
+
+Examples of follow-up work:
+
+- User registration, authentication, and persisted accounts — PostgreSQL is already in the stack and waiting for that kind of feature.
+- Saving favorite locations, search history, or notification jobs on Sidekiq.
+- A richer UI, stronger input validation, and more provider coverage.
+
+The current weather flow is the vertical slice. Persistence and user-facing product features are the next layer, not a rewrite.
+
 ## Tests
 
 From inside the 'web' docker container:
