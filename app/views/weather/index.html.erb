@@ -1,6 +1,8 @@
 <h1>Weather Forecast Results</h1>
 
 <% if @weather.result.present? %>
+  <small><%= @weather.cached ? "from cache" : "not from cache" %></small>
+
   <div class="current-weather" style="margin-bottom: 25px; padding: 15px; background: #eef2f7; border-radius: 6px; width: fit-content;">
     <h3>Current Conditions</h3>
     <h4><%= @weather.result[:display_name] %></h4>
