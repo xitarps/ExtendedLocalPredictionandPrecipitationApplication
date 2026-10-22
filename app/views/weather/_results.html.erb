@@ -1,0 +1,46 @@
+<div id="weather_results">
+  <% if weather.result.present? %>
+    <small><%= weather.cached ? "from cache" : "not from cache" %></small>
+
+    <div class="current-weather" style="margin-bottom: 25px; padding: 15px; background: #eef2f7; border-radius: 6px; width: fit-content;">
+      <h3>Current Conditions</h3>
+      <h4><%= weather.result[:display_name] %></h4>
+      <p><strong>Current Temperature:</strong> <%= weather.result[:current_temperature] %>°C</p>
+      <p><strong>Today's High:</strong> <%= weather.result[:today_high] %>°C</p>
+      <p><strong>Today's Low:</strong> <%= weather.result[:today_low] %>°C</p>
+    </div>
+
+    <div class="forecast-extended">
+      <h3>Extended Forecast</h3>
+      <table border="1" cellpadding="8" style="border-collapse: collapse; text-align: center;">
+        <thead>
+          <tr style="background-color: #f2f2f2;">
+            <th>Date</th>
+            <th>Low</th>
+            <th>High</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% weather.result[:extended_forecast].each do |day| %>
+            <tr>
+              <td><strong><%= day[:date] %></strong></td>
+              <td style="color: #0056b3;"><%= day[:low] %>°C</td>
+              <td style="color: #d9534f;"><%= day[:high] %>°C</td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  <% end %>
+
+  <% if weather.errors.any? %>
+    <div class="errors" style="color: red; margin-top: 15px;">
+      <h4>Errors</h4>
+      <ul>
+        <% weather.errors.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

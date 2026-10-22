@@ -1,9 +1,16 @@
 class WeatherController < ApplicationController
   def index
-    @weather = Api::V1::FetchWeatherDataService.call(
-      zip_code: params["zip_code"],
-      country_code: params["country_code"],
-      cache_provider: Rails
+    return if params["zip_code"].blank?
+
+    @weather_stream = "weather_#{SecureRandom.uuid}"
+  end
+
+  def enqueue
+    FetchWeatherDataJob.perform_async(
+      params["stream_name"],
+      params["zip_code"],
+      params["country_code"]
     )
+    head :accepted
   end
 end
