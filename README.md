@@ -1,6 +1,39 @@
 # Elppa - Extended Local Prediction and Precipitation Application
 
-Rails 8 app with PostgreSQL, Redis, and Sidekiq.
+Rails 8 app with PostgreSQL, Redis, and Sidekiq. Search weather by zip code from the navbar; results show current conditions and a 7-day forecast.
+
+## API providers
+
+Weather data comes from [Open-Meteo](https://open-meteo.com/). That API requires latitude and longitude, not a zip code. To keep the UI based on zip code, the app first calls [OpenStreetMap Nominatim](https://nominatim.openstreetmap.org/) to geocode the zip code (and optional country code) into coordinates, then asks Open-Meteo for the forecast.
+
+Flow:
+
+1. Look up the zip code on OpenStreetMap (Nominatim search by postal code).
+2. Take latitude and longitude from that response.
+3. Request the forecast from Open-Meteo with those coordinates.
+
+These providers were chosen so the project can run with as little setup as possible. Both are usable without creating an account or obtaining an API key.
+
+## Cache
+
+Successful weather lookups are cached by zip code and country code.
+
+- TTL is the constant `CACHE_TTL` in `Api::V1::FetchWeatherDataService` (currently 30 minutes).
+- Errors are not cached.
+- The weather index shows a small `from cache` / `not from cache` label next to the result.
+
+## Architecture
+
+Domain work lives in services rather than fat controllers. That choice is about:
+
+- **Decoupling** — HTTP, geocoding, and weather fetching stay in separate objects.
+- **Testability** — each service can be exercised in isolation, including with a fake cache or provider.
+- **Predictability** — every service is invoked the same way (`call`) and returns `result` plus `errors`.
+- **Control** — the orchestration service decides order, caching, and which provider to use.
+
+`ServiceInterface` is the shared contract: subclasses implement `run`, expose `result` and `errors`, and are called through `.call`.
+
+Composition wires the pieces together. `FetchWeatherDataService` depends on a coordinates fetcher and a weather fetcher; each fetcher receives a provider. Defaults are OpenStreetMap and Open-Meteo, but a new provider that follows the same interface can be swapped in without changing the rest of the flow.
 
 ## Docker Compose
 
